@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Honesty Adventure! - Dialogue 4 Kids English</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Fredoka & Quicksand -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Fredoka', 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 40%, #e0f2fe 100%);
+            touch-action: manipulation;
+        }
+
+        .bounce-hover {
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .bounce-hover:hover {
+            transform: scale(1.04) translateY(-3px);
+        }
+
+        .card-shadow {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-pop {
+            animation: popIn 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+        }
+        .animate-float {
+            animation: floatSlow 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-800 flex flex-col justify-between p-2 md:p-6">
+
+    <header class="max-w-4xl mx-auto w-full bg-white/95 backdrop-blur-md rounded-2xl p-4 mb-4 shadow-md flex flex-wrap items-center justify-between gap-3 border-2 border-amber-200">
+        <div class="flex items-center gap-3">
+            <div class="w-12 h-12 bg-amber-500 rounded-2xl flex items-center justify-center text-white text-2xl shadow-inner animate-float">
+                <i class="fa-solid fa-heart-circle-check"></i>
+            </div>
+            <div>
+                <h1 class="text-xl md:text-2xl font-bold text-amber-900 tracking-wide">Honesty Adventure! 🌟</h1>
+                <p class="text-xs md:text-sm text-amber-700 font-medium">Dialogue 4: Telling the Truth & Returning Lost Items</p>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+            <div id="starContainer" class="flex items-center gap-1.5 bg-amber-100 px-3 py-1.5 rounded-full border border-amber-300 shadow-sm">
+                <i class="fa-solid fa-star text-amber-500 text-lg"></i>
+                <span id="starCounter" class="font-bold text-amber-900 text-base">0</span>
+                <span class="text-xs text-amber-700 font-semibold uppercase ml-1">Stars</span>
+            </div>
+
+            <button id="ttsToggleBtn" onclick="toggleAudio()" class="w-10 h-10 bg-sky-100 hover:bg-sky-200 text-sky-700 rounded-full flex items-center justify-center transition border border-sky-300 text-lg" title="Toggle Audio">
+                <i id="ttsIcon" class="fa-solid fa-volume-high"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto w-full flex-grow flex flex-col">
+        
+        <nav class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
+            <button onclick="switchTab('dialogue')" id="tab-dialogue" class="tab-btn active bg-amber-600 text-white font-bold py-3 px-2 rounded-xl text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm transition-all duration-200">
+                <i class="fa-solid fa-comments text-base"></i>
+                <span>Roleplay Dialogues</span>
+            </button>
+            <button onclick="switchTab('lostfound')" id="tab-lostfound" class="tab-btn bg-white hover:bg-sky-50 text-slate-600 font-bold py-3 px-2 rounded-xl text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm transition-all duration-200">
+                <i class="fa-solid fa-magnifying-glass text-base text-sky-500"></i>
+                <span>Lost & Found Game</span>
+            </button>
+            <button onclick="switchTab('puzzle')" id="tab-puzzle" class="tab-btn bg-white hover:bg-purple-50 text-slate-600 font-bold py-3 px-2 rounded-xl text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm transition-all duration-200">
+                <i class="fa-solid fa-puzzle-piece text-base text-purple-500"></i>
+                <span>Sentence Builder</span>
+            </button>
+            <button onclick="switchTab('arcade')" id="tab-arcade" class="tab-btn bg-white hover:bg-emerald-50 text-slate-600 font-bold py-3 px-2 rounded-xl text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm transition-all duration-200">
+                <i class="fa-solid fa-gamepad text-base text-emerald-500"></i>
+                <span>Honesty Arcade</span>
+            </button>
+        </nav>
+
+        <section id="sec-dialogue" class="tab-content bg-white rounded-3xl p-4 sm:p-6 shadow-xl border-2 border-amber-100 flex-grow flex flex-col">
+            <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-100 mb-4">
+                <div>
+                    <h2 class="text-lg font-bold text-amber-900">🎭 Interactive Dialogue Roleplay</h2>
+                    <p class="text-xs text-slate-500">Choose a story, listen to characters, and tap <span class="font-bold text-amber-600">"Your Turn"</span> to speak!</p>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="selectDialogue(0)" id="dlg-btn-0" class="dlg-select-btn px-3 py-1.5 rounded-xl text-xs font-bold border border-amber-400 bg-amber-500 text-white shadow-sm">
+                        🚗 1: Toy Car
+                    </button>
+                    <button onclick="selectDialogue(1)" id="dlg-btn-1" class="dlg-select-btn px-3 py-1.5 rounded-xl text-xs font-bold border border-slate-200 bg-slate-100 text-slate-600 hover:bg-slate-200">
+                        ✏️ 2: Lost Pencil
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dialogue Progress Bar -->
+            <div class="w-full bg-slate-100 rounded-full h-2 mb-4 overflow-hidden">
+                <div id="dialogueProgress" class="bg-amber-500 h-2 rounded-full transition-all duration-300" style="width: 10%;"></div>
+            </div>
+
+            <!-- Dialogue Chat History Box -->
+            <div id="dialogueChatContainer" class="flex-grow overflow-y-auto max-h-[380px] p-2 sm:p-4 space-y-3 bg-slate-50/70 rounded-2xl border border-slate-200 mb-4">
+                <!-- Chat Bubbles generated dynamically -->
+            </div>
+
+            <!-- Roleplay Interactive Controls -->
+            <div id="roleplayActionArea" class="bg-amber-50 rounded-2xl p-3 border border-amber-200 flex flex-col gap-2">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-amber-800 uppercase tracking-wider flex items-center gap-1">
+                        <i class="fa-solid fa-user-gear"></i> Your Roleplay Turn:
+                    </span>
+                    <button onclick="readCurrentStep()" class="text-xs text-amber-700 font-semibold hover:underline flex items-center gap-1">
+                        <i class="fa-solid fa-volume-high"></i> Repeat Audio
+                    </button>
+                </div>
+                <div id="yourTurnOptions" class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-1">
+                    <!-- Interactive choices or next step buttons -->
+                </div>
+            </div>
+        </section>
+
+        <section id="sec-lostfound" class="tab-content hidden bg-white rounded-3xl p-4 sm:p-6 shadow-xl border-2 border-sky-100 flex-grow flex flex-col justify-between">
+            <div>
+                <div class="flex justify-between items-center pb-3 border-b border-slate-100 mb-4">
+                    <div>
+                        <h2 class="text-lg font-bold text-sky-900">🕵️ Lost & Found Game: Find the Owner!</h2>
+                        <p class="text-xs text-slate-500">Read who lost each item and practice honesty by returning it to the right friend!</p>
+                    </div>
+                    <span id="lostFoundScore" class="bg-sky-100 text-sky-800 text-xs font-bold px-3 py-1 rounded-full">Found: 0/4</span>
+                </div>
+
+                <!-- Lost Item Display Card -->
+                <div class="bg-gradient-to-r from-sky-400 to-blue-600 rounded-2xl p-6 text-white text-center shadow-md mb-6 animate-pop">
+                    <span id="lostItemIcon" class="text-5xl mb-2 block animate-float">🚗</span>
+                    <h3 id="lostItemTitle" class="text-xl font-bold">Lost Item: Red Toy Car</h3>
+                    <p id="lostItemClue" class="text-xs sm:text-sm text-sky-100 mt-1">Clue: "It belongs to Lucas!"</p>
+                </div>
+
+                <!-- Character Owners Selection -->
+                <p class="text-xs font-bold text-slate-400 mb-2 uppercase tracking-wide">WHO IS THE REAL OWNER? / ¿DE QUIÉN ES?</p>
+                <div id="ownerSelectionGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+                    <!-- Owner Choice Buttons -->
+                </div>
+            </div>
+
+            <div class="bg-sky-50 rounded-2xl p-3 border border-sky-200 text-center">
+                <p class="text-xs font-semibold text-sky-800">
+                    💡 "Honesty builds trust. Returning lost items shows you are a good friend!"
+                </p>
+            </div>
+        </section>
+
+        <section id="sec-puzzle" class="tab-content hidden bg-white rounded-3xl p-4 sm:p-6 shadow-xl border-2 border-purple-100 flex-grow flex flex-col justify-between">
+            <div>
+                <div class="flex justify-between items-center pb-3 border-b border-slate-100 mb-4">
+                    <div>
+                        <h2 class="text-lg font-bold text-purple-900">🧩 Honesty Sentence Builder</h2>
+                        <p class="text-xs text-slate-500">Unscramble English sentences from the story!</p>
+                    </div>
+                    <span id="puzzleLevelBadge" class="bg-purple-100 text-purple-700 text-xs font-bold px-3 py-1 rounded-full">Level 1/5</span>
+                </div>
+
+                <!-- Spanish Translation Hint Card -->
+                <div class="bg-purple-50 rounded-2xl p-4 mb-4 border border-purple-200 text-center">
+                    <span id="sentenceCategoryTag" class="text-[10px] font-bold uppercase tracking-wider bg-purple-200 text-purple-800 px-2.5 py-0.5 rounded-full mb-1 inline-block">Honesty Concept</span>
+                    <p class="text-xs text-purple-600 font-semibold mb-1">Target Spanish Meaning:</p>
+                    <p id="puzzleTranslation" class="text-lg sm:text-xl font-bold text-purple-900">"La honestidad construye confianza."</p>
+                </div>
+
+                <!-- Answer Slot Area -->
+                <div class="mb-6">
+                    <p class="text-xs font-bold text-slate-400 mb-2 uppercase">YOUR ENGLISH SENTENCE / TU ORACIÓN EN INGLÉS:</p>
+                    <div id="sentenceSlot" class="min-h-[64px] bg-slate-50 border-2 border-dashed border-purple-300 rounded-2xl p-3 flex flex-wrap items-center gap-2">
+                        <!-- Words selected by user -->
+                    </div>
+                </div>
+
+                <!-- Scrambled Words Area -->
+                <div>
+                    <p class="text-xs font-bold text-slate-400 mb-2 uppercase">TAP WORDS IN ORDER / TOCA LAS PALABRAS EN ORDEN:</p>
+                    <div id="wordBank" class="flex flex-wrap gap-2">
+                        <!-- Word chips -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Puzzle Controls -->
+            <div class="mt-6 flex justify-between items-center">
+                <button onclick="clearPuzzleSentence()" class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold text-xs sm:text-sm rounded-xl transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-rotate-left"></i> Reset Words
+                </button>
+                <button onclick="checkPuzzleAnswer()" class="px-6 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-bold text-sm rounded-xl shadow-lg shadow-purple-200 transition flex items-center gap-1.5">
+                    <span>Check Sentence</span> <i class="fa-solid fa-circle-check"></i>
+                </button>
+            </div>
+        </section>
+
+        <section id="sec-arcade" class="tab-content hidden bg-white rounded-3xl p-4 sm:p-6 shadow-xl border-2 border-emerald-100 flex-grow flex flex-col justify-between">
+            <div>
+                <div class="flex justify-between items-center pb-3 border-b border-slate-100 mb-4">
+                    <div>
+                        <h2 class="text-lg font-bold text-emerald-900">🎯 Honesty Quiz Arcade</h2>
+                        <p class="text-xs text-slate-500">Test your knowledge of Dialogue 4 and express truthfulness!</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span id="arcadeScoreBadge" class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full">Score: 0</span>
+                    </div>
+                </div>
+
+                <!-- Question Header Card -->
+                <div id="arcadeQuestionCard" class="bg-gradient-to-r from-emerald-500 to-teal-600 rounded-2xl p-6 text-white text-center shadow-md mb-4 animate-pop">
+                    <span id="arcadeTopicTag" class="text-[11px] font-bold uppercase tracking-wider bg-white/20 px-3 py-1 rounded-full mb-2 inline-block">Topic: Dialogue 4 Honesty</span>
+                    <h3 id="arcadeQuestionText" class="text-xl sm:text-2xl font-bold mb-2">What does "Honesty builds trust" mean?</h3>
+                    <p id="arcadeSubText" class="text-xs sm:text-sm text-emerald-100">Select the correct Spanish translation below!</p>
+                </div>
+
+                <!-- Options Grid -->
+                <div id="arcadeOptionsGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <!-- Choice buttons -->
+                </div>
+            </div>
+
+            <div class="mt-4 text-center">
+                <p class="text-xs text-slate-400 font-medium">Earn +1 Star for every correct quiz answer! 🌟</p>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="feedbackModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl p-6 max-w-sm w-full text-center shadow-2xl border-4 border-amber-300 animate-pop">
+            <div id="modalIcon" class="w-16 h-16 bg-amber-100 text-amber-500 text-3xl rounded-full flex items-center justify-center mx-auto mb-3 shadow-inner">
+                <i class="fa-solid fa-star"></i>
+            </div>
+            <h3 id="modalTitle" class="text-xl font-bold text-slate-800 mb-1">Excellent!</h3>
+            <p id="modalBody" class="text-slate-600 text-sm mb-4">You spoke truthfully and earned stars!</p>
+            <button onclick="closeModal()" class="w-full py-3 bg-amber-400 hover:bg-amber-500 text-amber-950 font-bold rounded-2xl shadow-md transition flex items-center justify-center gap-1.5">
+                <span>Continue</span> <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <footer class="max-w-4xl mx-auto w-full text-center py-3 mt-4 text-xs text-slate-500 font-medium">
+        Educational English Game • Dialogue 4: Honesty & Truthfulness 🌟
+    </footer>
+
+    <script>
+        // Game State Variables
+        let userStars = 0;
+        let isAudioEnabled = true;
+
+        // Web Audio Synthesizer for Kids Sound Effects
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSoundEffect(type) {
+            try {
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                if (type === 'success') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+                    osc.frequency.exponentialRampToValueAtTime(659.25, audioCtx.currentTime + 0.1); // E5
+                    osc.frequency.exponentialRampToValueAtTime(783.99, audioCtx.currentTime + 0.2); // G5
+                    gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.45);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.45);
+                } else if (type === 'pop') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(340, audioCtx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(170, audioCtx.currentTime + 0.08);
+                    gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.08);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.08);
+                } else if (type === 'error') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(220, audioCtx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(110, audioCtx.currentTime + 0.2);
+                    gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.2);
+                }
+            } catch (e) {
+                // Audio synth fallback
+            }
+        }
+
+        function speakText(text) {
+            if (!isAudioEnabled || !('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.88; // Easy rate for kids
+            window.speechSynthesis.speak(utterance);
+        }
+
+        const dialoguesData = [
+            {
+                id: "dialogue1",
+                title: "Dialogue 4: Sharing & The Toy Car",
+                description: "Tobby, Molly, and María talk about a lost toy car.",
+                steps: [
+                    { speaker: "Tobby", avatar: "🐶", text: "Hello, Molly!", es: "¡Hola, Molly!", bg: "bg-amber-100 text-amber-900", isUser: false },
+                    { speaker: "Molly", avatar: "🐱", text: "Hi, Tobby!", es: "¡Hola, Tobby!", bg: "bg-pink-100 text-pink-900", isUser: false },
+                    { speaker: "María", avatar: "👧", text: "Is this toy car yours?", es: "¿Este coche de juguete es tuyo?", bg: "bg-purple-100 text-purple-900", isUser: false },
+                    { 
+                        speaker: "Your turn (Tu turno)", 
+                        avatar: "⭐", 
+                        text: "No, it is not mine, but I can help find the owner.", 
+                        es: "No, no es mío, pero puedo ayudar a encontrar al dueño.", 
+                        bg: "bg-amber-500 text-white font-bold", 
+                        isUser: true,
+                        options: [
+                            { text: "No, it is not mine, but I can help find the owner.", correct: true },
+                            { text: "Yes, this toy car is 100% mine!", correct: false }
+                        ]
+                    },
+                    { speaker: "María", avatar: "👧", text: "Thank you for being honest!", es: "¡Gracias por ser honesto/a!", bg: "bg-purple-100 text-purple-900", isUser: false },
+                    { speaker: "Molly", avatar: "🐱", text: "Look! It belongs to Lucas!", es: "¡Mira! ¡Le pertenece a Lucas!", bg: "bg-pink-100 text-pink-900", isUser: false },
+                    { speaker: "María", avatar: "👧", text: "That's wonderful. Honesty builds trust.", es: "Eso es maravilloso. La honestidad construye confianza.", bg: "bg-purple-100 text-purple-900", isUser: false },
+                    { speaker: "Molly", avatar: "🐱", text: "Do you want to give it back to him?", es: "¿Quieres devolvérselo a él?", bg: "bg-pink-100 text-pink-900", isUser: false },
+                    { 
+                        speaker: "Your turn (Tu turno)", 
+                        avatar: "⭐", 
+                        text: "Yes, I want to give the toy back to Lucas!", 
+                        es: "¡Sí, quiero devolverle el juguete a Lucas!", 
+                        bg: "bg-amber-500 text-white font-bold", 
+                        isUser: true,
+                        options: [
+                            { text: "Yes, I want to give the toy back to Lucas!", correct: true },
+                            { text: "No, I want to keep it forever.", correct: false }
+                        ]
+                    },
+                    { speaker: "Tobby", avatar: "🐶", text: "Let me go with you!", es: "¡Déjame ir contigo!", bg: "bg-amber-100 text-amber-900", isUser: false },
+                    { speaker: "Everyone", avatar: "🎉", text: "Yay!", es: "¡Siiii!", bg: "bg-emerald-100 text-emerald-900 font-bold", isUser: false }
+                ]
+            },
+            {
+                id: "dialogue2",
+                title: "Dialogue 4: Honesty in Class",
+                description: "Floppy, Lucas, and Molly talk about telling the truth in classroom.",
+                steps: [
+                    { speaker: "Floppy", avatar: "🐰", text: "Hello, class!", es: "¡Hola, clase!", bg: "bg-sky-100 text-sky-900", isUser: false },
+                    { speaker: "Students", avatar: "🎒", text: "Hello, Floppy!", es: "¡Hola, Floppy!", bg: "bg-indigo-100 text-indigo-900", isUser: false },
+                    { speaker: "Floppy", avatar: "🐰", text: "Who found this pencil on the floor?", es: "¿Quién encontró este lápiz en el suelo?", bg: "bg-sky-100 text-sky-900", isUser: false },
+                    { speaker: "Lucas", avatar: "👦", text: "I found it, but it is not mine.", es: "Yo lo encontré, pero no es mío.", bg: "bg-emerald-100 text-emerald-900", isUser: false },
+                    { speaker: "Molly", avatar: "🐱", text: "It's mine! Thank you for giving it back.", es: "¡Es mío! Gracias por devolvérmelo.", bg: "bg-pink-100 text-pink-900", isUser: false },
+                    { speaker: "Floppy", avatar: "🐰", text: "Telling the truth shows honesty.", es: "Decir la verdad demuestra honestidad.", bg: "bg-sky-100 text-sky-900", isUser: false },
+                    { speaker: "Lucas", avatar: "👦", text: "You are welcome, Molly!", es: "¡De nada, Molly!", bg: "bg-emerald-100 text-emerald-900", isUser: false },
+                    { speaker: "Molly", avatar: "🐱", text: "You are a good friend, Lucas.", es: "Eres un buen amigo, Lucas.", bg: "bg-pink-100 text-pink-900", isUser: false },
+                    { speaker: "Floppy", avatar: "🐰", text: "Excellent! Good job!", es: "¡Excelente! ¡Buen trabajo!", bg: "bg-amber-100 text-amber-900 font-bold", isUser: false }
+                ]
+            }
+        ];
+
+        let activeDialogueIndex = 0;
+        let currentStepIndex = 0;
+
+        function selectDialogue(index) {
+            playSoundEffect('pop');
+            activeDialogueIndex = index;
+            currentStepIndex = 0;
+
+            document.querySelectorAll('.dlg-select-btn').forEach((btn, idx) => {
+                if (idx === index) {
+                    btn.className = "dlg-select-btn px-3 py-1.5 rounded-xl text-xs font-bold border border-amber-400 bg-amber-500 text-white shadow-sm";
+                } else {
+                    btn.className = "dlg-select-btn px-3 py-1.5 rounded-xl text-xs font-bold border border-slate-200 bg-slate-100 text-slate-600 hover:bg-slate-200";
+                }
+            });
+
+            renderDialogueProgress();
+        }
+
+        function renderDialogueProgress() {
+            const dialogue = dialoguesData[activeDialogueIndex];
+            const container = document.getElementById('dialogueChatContainer');
+            container.innerHTML = '';
+
+            // Render lines up to currentStepIndex
+            for (let i = 0; i <= currentStepIndex && i < dialogue.steps.length; i++) {
+                const step = dialogue.steps[i];
+                const bubble = document.createElement('div');
+                bubble.className = `p-3 rounded-2xl ${step.bg} shadow-sm animate-pop flex items-start gap-3 border border-slate-200/60`;
+
+                bubble.innerHTML = `
+                    <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-xl shrink-0 shadow-sm">
+                        ${step.avatar}
+                    </div>
+                    <div class="flex-grow">
+                        <div class="flex items-center justify-between mb-0.5">
+                            <span class="font-bold text-xs uppercase tracking-wide opacity-80">${step.speaker}</span>
+                            <button onclick="speakText('${step.text.replace(/'/g, "\\'")}')" class="text-xs hover:opacity-100 opacity-70 p-1">
+                                <i class="fa-solid fa-volume-high"></i>
+                            </button>
+                        </div>
+                        <p class="text-sm sm:text-base font-semibold">${step.text}</p>
+                        <p class="text-xs opacity-75 italic mt-0.5"><i class="fa-solid fa-language mr-1"></i>${step.es}</p>
+                    </div>
+                `;
+                container.appendChild(bubble);
+            }
+
+            container.scrollTop = container.scrollHeight;
+
+            // Update Progress Bar
+            const progressPct = ((currentStepIndex + 1) / dialogue.steps.length) * 100;
+            document.getElementById('dialogueProgress').style.width = `${progressPct}%`;
+
+            renderRoleplayAction();
+        }
+
+        function renderRoleplayAction() {
+            const dialogue = dialoguesData[activeDialogueIndex];
+            const actionArea = document.getElementById('yourTurnOptions');
+            actionArea.innerHTML = '';
+
+            if (currentStepIndex >= dialogue.steps.length - 1) {
+                actionArea.innerHTML = `
+                    <div class="col-span-2 text-center py-2">
+                        <p class="text-xs font-bold text-emerald-700 mb-2">🎉 Dialogue Complete! Great job learning honesty phrases!</p>
+                        <button onclick="resetCurrentDialogue()" class="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl text-sm shadow-md transition">
+                            <i class="fa-solid fa-rotate-right mr-1"></i> Practice Again
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            const nextStep = dialogue.steps[currentStepIndex + 1];
+
+            if (nextStep.isUser) {
+                // Interactive User choice step
+                nextStep.options.forEach((opt) => {
+                    const btn = document.createElement('button');
+                    btn.className = "p-3 rounded-xl bg-white hover:bg-amber-100 border-2 border-amber-300 text-amber-900 font-bold text-xs sm:text-sm text-left transition bounce-hover shadow-sm flex items-center justify-between";
+                    btn.innerHTML = `
+                        <span>🗣️ "${opt.text}"</span>
+                        <i class="fa-solid fa-circle-play text-amber-500 text-lg ml-2"></i>
+                    `;
+                    btn.onclick = () => handleUserRoleplayChoice(opt.correct, opt.text);
+                    actionArea.appendChild(btn);
+                });
+            } else {
+                // Advance NPC line
+                const btn = document.createElement('button');
+                btn.className = "col-span-2 p-3 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl text-sm transition shadow-md flex items-center justify-center gap-2";
+                btn.innerHTML = `
+                    <span>Next Character Line (${nextStep.speaker})</span>
+                    <i class="fa-solid fa-forward"></i>
+                `;
+                btn.onclick = () => advanceDialogueStep();
+                actionArea.appendChild(btn);
+            }
+        }
+
+        function handleUserRoleplayChoice(isCorrect, text) {
+            speakText(text);
+            if (isCorrect) {
+                playSoundEffect('success');
+                addStars(1);
+                advanceDialogueStep();
+            } else {
+                playSoundEffect('error');
+                showModal("Try Again! 🤔", "Remember to choose the honest answer!");
+            }
+        }
+
+        function advanceDialogueStep() {
+            const dialogue = dialoguesData[activeDialogueIndex];
+            if (currentStepIndex < dialogue.steps.length - 1) {
+                currentStepIndex++;
+                renderDialogueProgress();
+                const step = dialogue.steps[currentStepIndex];
+                speakText(step.text);
+            }
+        }
+
+        function readCurrentStep() {
+            const dialogue = dialoguesData[activeDialogueIndex];
+            const step = dialogue.steps[currentStepIndex];
+            if (step) speakText(step.text);
+        }
+
+        function resetCurrentDialogue() {
+            currentStepIndex = 0;
+            renderDialogueProgress();
+        }
+
+        const lostItemsData = [
+            {
+                title: "Red Toy Car",
+                icon: "🚗",
+                clue: "Molly says: 'Look! It belongs to Lucas!'",
+                owner: "Lucas",
+                spanish: "Coche de juguete rojo"
+            },
+            {
+                title: "Yellow Classroom Pencil",
+                icon: "✏️",
+                clue: "Lucas found it on the floor. Molly says: 'It's mine!'",
+                owner: "Molly",
+                spanish: "Lápiz amarillo de clase"
+            },
+            {
+                title: "Blue Crayon",
+                icon: "🖍️",
+                clue: "Floppy asks who needs it. Tobby returned it honestly!",
+                owner: "Tobby",
+                spanish: "Crayón azul"
+            },
+            {
+                title: "Picture Drawing",
+                icon: "🎨",
+                clue: "María says: 'Thank you for being honest about my drawing!'",
+                owner: "María",
+                spanish: "Dibujo de colores"
+            }
+        ];
+
+        const characterOwners = [
+            { name: "Lucas", avatar: "👦", color: "bg-emerald-100 hover:bg-emerald-200 border-emerald-300 text-emerald-900" },
+            { name: "Molly", avatar: "🐱", color: "bg-pink-100 hover:bg-pink-200 border-pink-300 text-pink-900" },
+            { name: "Tobby", avatar: "🐶", color: "bg-amber-100 hover:bg-amber-200 border-amber-300 text-amber-900" },
+            { name: "María", avatar: "👧", color: "bg-purple-100 hover:bg-purple-200 border-purple-300 text-purple-900" }
+        ];
+
+        let lostItemIndex = 0;
+        let itemsFoundCount = 0;
+
+        function renderLostAndFound() {
+            const currentItem = lostItemsData[lostItemIndex];
+            document.getElementById('lostItemIcon').innerText = currentItem.icon;
+            document.getElementById('lostItemTitle').innerText = `Lost Item: ${currentItem.title}`;
+            document.getElementById('lostItemClue').innerText = `Clue: ${currentItem.clue}`;
+            document.getElementById('lostFoundScore').innerText = `Found: ${itemsFoundCount}/${lostItemsData.length}`;
+
+            speakText(`Who owns the lost ${currentItem.title}?`);
+
+            const grid = document.getElementById('ownerSelectionGrid');
+            grid.innerHTML = '';
+
+            characterOwners.forEach(owner => {
+                const btn = document.createElement('button');
+                btn.className = `p-4 rounded-2xl border-2 ${owner.color} font-bold text-center transition bounce-hover shadow-sm flex flex-col items-center justify-center gap-1`;
+                btn.innerHTML = `
+                    <span class="text-3xl">${owner.avatar}</span>
+                    <span class="text-sm">${owner.name}</span>
+                `;
+                btn.onclick = () => checkItemOwner(owner.name);
+                grid.appendChild(btn);
+            });
+        }
+
+        function checkItemOwner(selectedOwner) {
+            const currentItem = lostItemsData[lostItemIndex];
+            if (selectedOwner === currentItem.owner) {
+                playSoundEffect('success');
+                addStars(2);
+                itemsFoundCount++;
+                speakText(`Thank you! The ${currentItem.title} belongs to ${currentItem.owner}!`);
+                showModal("Honest Return! 🌟", `You correctly returned the ${currentItem.title} to ${currentItem.owner}!`);
+
+                lostItemIndex = (lostItemIndex + 1) % lostItemsData.length;
+                renderLostAndFound();
+            } else {
+                playSoundEffect('error');
+                showModal("Check the Clue! 🔍", `Read the clue carefully to find the true owner!`);
+            }
+        }
+
+        const puzzleData = [
+            {
+                category: "Honesty Concept",
+                translation: '"La honestidad construye confianza."',
+                words: ["Honesty", "builds", "trust."],
+                answer: ["Honesty", "builds", "trust."]
+            },
+            {
+                category: "Dialogue 4 Response",
+                translation: '"No, no es mío, pero puedo ayudar a encontrar al dueño."',
+                words: ["owner.", "find", "not", "is", "mine,", "help", "No,", "it", "can", "I", "but"],
+                answer: ["No,", "it", "is", "not", "mine,", "but", "I", "can", "help", "find", "the", "owner."]
+            },
+            {
+                category: "Dialogue 4 Response",
+                translation: '"¡Sí, quiero devolverle el juguete a Lucas!"',
+                words: ["give", "toy", "want", "back", "to", "Yes,", "I", "Lucas!", "the", "to"],
+                answer: ["Yes,", "I", "want", "to", "give", "the", "toy", "back", "to", "Lucas!"]
+            },
+            {
+                category: "Classroom Honesty",
+                translation: '"Decir la verdad demuestra honestidad."',
+                words: ["shows", "the", "truth", "honesty.", "Telling"],
+                answer: ["Telling", "the", "truth", "shows", "honesty."]
+            },
+            {
+                category: "Good Friend",
+                translation: '"Eres un buen amigo, Lucas."',
+                words: ["friend,", "good", "a", "are", "You", "Lucas."],
+                answer: ["You", "are", "a", "good", "friend,", "Lucas."]
+            }
+        ];
+
+        let currentPuzzleIndex = 0;
+        let selectedPuzzleWords = [];
+
+        function renderPuzzle() {
+            const data = puzzleData[currentPuzzleIndex];
+            document.getElementById('puzzleLevelBadge').innerText = `Level ${currentPuzzleIndex + 1}/${puzzleData.length}`;
+            document.getElementById('sentenceCategoryTag').innerText = data.category;
+            document.getElementById('puzzleTranslation').innerText = data.translation;
+
+            const wordBank = document.getElementById('wordBank');
+            wordBank.innerHTML = '';
+
+            // Shuffle words for bank display
+            const shuffled = [...data.words].sort(() => 0.5 - Math.random());
+
+            shuffled.forEach((word) => {
+                const btn = document.createElement('button');
+                btn.className = "px-4 py-2.5 bg-purple-100 hover:bg-purple-200 text-purple-900 font-bold rounded-xl text-xs sm:text-sm transition bounce-hover border border-purple-300 shadow-sm";
+                btn.innerText = word;
+                btn.onclick = () => addWordToPuzzle(word, btn);
+                wordBank.appendChild(btn);
+            });
+
+            clearPuzzleSentence();
+        }
+
+        function addWordToPuzzle(word, btnElement) {
+            selectedPuzzleWords.push(word);
+            btnElement.disabled = true;
+            btnElement.classList.add('opacity-40', 'cursor-not-allowed');
+
+            const slot = document.getElementById('sentenceSlot');
+            const card = document.createElement('span');
+            card.className = "px-3 py-1.5 bg-purple-600 text-white font-bold rounded-xl text-xs sm:text-sm shadow-md animate-pop";
+            card.innerText = word;
+            slot.appendChild(card);
+
+            playSoundEffect('pop');
+            speakText(word);
+        }
+
+        function clearPuzzleSentence() {
+            selectedPuzzleWords = [];
+            document.getElementById('sentenceSlot').innerHTML = '';
+            document.querySelectorAll('#wordBank button').forEach(btn => {
+                btn.disabled = false;
+                btn.classList.remove('opacity-40', 'cursor-not-allowed');
+            });
+            playSoundEffect('pop');
+        }
+
+        function checkPuzzleAnswer() {
+            const data = puzzleData[currentPuzzleIndex];
+            const isCorrect = JSON.stringify(selectedPuzzleWords) === JSON.stringify(data.answer);
+
+            if (isCorrect) {
+                playSoundEffect('success');
+                addStars(2);
+                const completeSentence = data.answer.join(" ");
+                speakText(completeSentence);
+
+                if (currentPuzzleIndex < puzzleData.length - 1) {
+                    showModal("Perfect Sentence! 🌟", `You formed: "${completeSentence}"`);
+                    currentPuzzleIndex++;
+                    renderPuzzle();
+                } else {
+                    showModal("Sentence Master! 🎉", "You completed all Dialogue 4 honesty sentence puzzles!");
+                    currentPuzzleIndex = 0;
+                    renderPuzzle();
+                }
+            } else {
+                playSoundEffect('error');
+                showModal("Try Again! 🤔", "Check the word order carefully!");
+            }
+        }
+
+        const arcadeQuestions = [
+            {
+                topic: "Dialogue 4: Honesty",
+                question: 'What does "Honesty builds trust" mean?',
+                options: [
+                    { text: 'La honestidad construye confianza', correct: true },
+                    { text: 'Aprender es divertido', correct: false },
+                    { text: 'Compartir es cuidar', correct: false },
+                    { text: 'Jugar en el patio es bueno', correct: false }
+                ]
+            },
+            {
+                topic: "Dialogue 4: Honesty",
+                question: 'What does "Telling the truth shows honesty" mean?',
+                options: [
+                    { text: 'Decir la verdad demuestra honestidad', correct: true },
+                    { text: 'Buscar un lápiz es difícil', correct: false },
+                    { text: 'No me gusta compartir', correct: false },
+                    { text: 'Hablar rápido es bueno', correct: false }
+                ]
+            },
+            {
+                topic: "Dialogue 4 Expressions",
+                question: 'What does "Is this toy car yours?" mean?',
+                options: [
+                    { text: '¿Este coche de juguete es tuyo?', correct: true },
+                    { text: '¿Quieres dibujar un coche?', correct: false },
+                    { text: '¿Tienes un lápiz amarillo?', correct: false },
+                    { text: '¿Dónde está Lucas?', correct: false }
+                ]
+            },
+            {
+                topic: "Dialogue 4 Expressions",
+                question: 'What does "It belongs to Lucas!" mean?',
+                options: [
+                    { text: '¡Le pertenece a Lucas!', correct: true },
+                    { text: '¡Lucas es mi profesor!', correct: false },
+                    { text: '¡Lucas perdió un cuaderno!', correct: false },
+                    { text: '¡Lucas quiere jugar!', correct: false }
+                ]
+            },
+            {
+                topic: "Dialogue 4 Expressions",
+                question: 'How do you answer when someone thanks you for being honest?',
+                options: [
+                    { text: 'You are welcome!', correct: true },
+                    { text: 'No, it is not mine', correct: false },
+                    { text: 'I am shy', correct: false },
+                    { text: 'Goodbye!', correct: false }
+                ]
+            }
+        ];
+
+        let arcadeIndex = 0;
+        let arcadeScore = 0;
+
+        function renderArcadeQuestion() {
+            const q = arcadeQuestions[arcadeIndex];
+            document.getElementById('arcadeTopicTag').innerText = `Topic: ${q.topic}`;
+            document.getElementById('arcadeQuestionText').innerText = q.question;
+            document.getElementById('arcadeScoreBadge').innerText = `Score: ${arcadeScore}`;
+
+            const grid = document.getElementById('arcadeOptionsGrid');
+            grid.innerHTML = '';
+
+            speakText(q.question);
+
+            // Shuffle options
+            const options = [...q.options].sort(() => 0.5 - Math.random());
+
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = "p-4 rounded-2xl bg-slate-50 hover:bg-emerald-100 border-2 border-slate-200 hover:border-emerald-400 font-bold text-slate-800 text-sm sm:text-base transition bounce-hover flex items-center justify-between text-left shadow-sm";
+                btn.innerHTML = `
+                    <span>${opt.text}</span>
+                    <i class="fa-solid fa-circle-chevron-right text-emerald-500"></i>
+                `;
+                btn.onclick = () => handleArcadeChoice(opt.correct);
+                grid.appendChild(btn);
+            });
+        }
+
+        function handleArcadeChoice(isCorrect) {
+            if (isCorrect) {
+                playSoundEffect('success');
+                addStars(1);
+                arcadeScore += 10;
+                showModal("Super Star! 🌟", "Correct answer! You earned +1 Star.");
+            } else {
+                playSoundEffect('error');
+                showModal("Almost! 💡", "Keep trying! Honesty & truthfulness lead the way.");
+            }
+
+            arcadeIndex = (arcadeIndex + 1) % arcadeQuestions.length;
+            renderArcadeQuestion();
+        }
+
+        function switchTab(tabKey) {
+            playSoundEffect('pop');
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-amber-600', 'bg-sky-600', 'bg-purple-600', 'bg-emerald-600', 'text-white');
+                btn.classList.add('bg-white', 'text-slate-600');
+            });
+
+            const selectedContent = document.getElementById(`sec-${tabKey}`);
+            const selectedBtn = document.getElementById(`tab-${tabKey}`);
+            selectedContent.classList.remove('hidden');
+
+            if (tabKey === 'dialogue') {
+                selectedBtn.classList.add('bg-amber-600', 'text-white');
+                renderDialogueProgress();
+            } else if (tabKey === 'lostfound') {
+                selectedBtn.classList.add('bg-sky-600', 'text-white');
+                renderLostAndFound();
+            } else if (tabKey === 'puzzle') {
+                selectedBtn.classList.add('bg-purple-600', 'text-white');
+                renderPuzzle();
+            } else if (tabKey === 'arcade') {
+                selectedBtn.classList.add('bg-emerald-600', 'text-white');
+                renderArcadeQuestion();
+            }
+        }
+
+        function addStars(count) {
+            userStars += count;
+            document.getElementById('starCounter').innerText = userStars;
+        }
+
+        function toggleAudio() {
+            isAudioEnabled = !isAudioEnabled;
+            const icon = document.getElementById('ttsIcon');
+            if (isAudioEnabled) {
+                icon.className = 'fa-solid fa-volume-high text-sky-600';
+                speakText("Audio enabled!");
+            } else {
+                icon.className = 'fa-solid fa-volume-xmark text-slate-400';
+                window.speechSynthesis.cancel();
+            }
+        }
+
+        function showModal(title, body) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalBody').innerText = body;
+            document.getElementById('feedbackModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            playSoundEffect('pop');
+            document.getElementById('feedbackModal').classList.add('hidden');
+        }
+
+        // On Window Load Initializer
+        window.onload = function() {
+            renderDialogueProgress();
+            renderLostAndFound();
+            renderPuzzle();
+            renderArcadeQuestion();
+        };
+    </script>
+</body>
+</html>
